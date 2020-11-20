@@ -5,7 +5,7 @@ import numpy as np
 def empty(a):
     pass
 
-def stackImages(scale,imgArray):
+def stackImages(scale,imgArray):          #a function to stake images including gray images and to scale them down or up
     rows = len(imgArray)
     cols = len(imgArray[0])
     rowsAvailable = isinstance(imgArray[0], list)
@@ -37,7 +37,7 @@ def stackImages(scale,imgArray):
     return ver
 
 
-cv2.namedWindow("TrackBars")
+cv2.namedWindow("TrackBars")                                     #craeting a trackbar to find optimal values of hue , sat and val
 cv2.resizeWindow("TrackBars", 640,240)
 cv2.createTrackbar("Hue Min", "TrackBars",0,179,empty)
 cv2.createTrackbar("Hue Max", "TrackBars",179,179,empty)
@@ -51,9 +51,9 @@ cv2.createTrackbar("Val Max", "TrackBars",255,255,empty)
 
 
 livecap = cv2.VideoCapture(0)
-livecap.set(3, 600)      
-livecap.set(4, 400)
-livecap.set(10, 1000)
+livecap.set(3, 600)                      # 3 represents height here
+livecap.set(4, 400)                      # 4 represents width here
+livecap.set(10, 1000)                    # 10 represents brightnes           
 
 
 while True:
@@ -68,8 +68,8 @@ while True:
     print(h_min,h_max,s_min,s_max,v_min,v_max)
     lower = np.array([h_min,s_min,v_min])
     upper = np.array([h_max,s_max,v_max])
-    mask = cv2.inRange(imgHSV,lower,upper)
-    imgResult = cv2.bitwise_and(img,img,mask=mask)
+    mask = cv2.inRange(imgHSV,lower,upper)                             #creating a mask image
+    imgResult = cv2.bitwise_and(img,img,mask=mask)                      #imposing mask on original image
     imgStack = stackImages(0.4,([img,imgHSV],[mask,imgResult]))
     
     cv2.imshow("stacked images", imgStack)
@@ -77,7 +77,7 @@ while True:
     #cv2.imshow("imgHSV", imgHSV)
     #cv2.imshow("mask", mask)
     #cv2.imshow("Final result on image", imgResult)
-    if cv2.waitKey(1) & 0xFF ==ord('q'):
+    if cv2.waitKey(1) & 0xFF ==ord('q'):                        # press q to exit
         break
 livecap.release()
 cv2.destroyAllWindows()    
