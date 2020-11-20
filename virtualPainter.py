@@ -5,16 +5,26 @@ import numpy as np
 
 livecap = cv2.VideoCapture(0)
 
-min = [60, 148, 51]
-max = [116, 255, 255]
+"""   
+     a markel with blue holder sholud be used as pen
+     
+     you can choose marker with any holder color but for that than you may find
+     these values from detectColorWebCam.py
+     then fill those values in min ans max lists
+     listed below                                          
+                                                                """
+
+
+min = [60, 148, 51]      #these are min hue, sat and val values for blue color            
+max = [116, 255, 255]    #these are max hue, sat and val values for blue color 
 frameWidth = 600
 frameHeight = 400
 livecap.set(3, 400)      
 livecap.set(4, 600)
-livecap.set(10, 100)
+livecap.set(10, 100)        #brightness 100
 
 points = []
-def stackImages(scale,imgArray):
+def stackImages(scale,imgArray):       # function to stack images including gray images and to scale them down
     rows = len(imgArray)
     cols = len(imgArray[0])
     rowsAvailable = isinstance(imgArray[0], list)
